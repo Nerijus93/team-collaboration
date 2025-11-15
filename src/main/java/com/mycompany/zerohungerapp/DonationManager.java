@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
  */
 public class DonationManager {
 
@@ -30,3 +30,4 @@ public class DonationManager {
         }
     }
 }
+
