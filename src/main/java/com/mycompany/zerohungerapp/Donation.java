@@ -10,7 +10,7 @@ package com.mycompany.main;
  */
 public class Donation {
 
-    private Donor donor; // 👈 Now uses Donor class
+    private Donor donor;
     private String date;
     private String typeOfFood;
     private String image;
@@ -52,3 +52,4 @@ public class Donation {
                 + "\nImage: " + image;
     }
 }
+
