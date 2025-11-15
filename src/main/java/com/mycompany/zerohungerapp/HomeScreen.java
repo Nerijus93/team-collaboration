@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
  */
 public class HomeScreen extends JFrame {
 
@@ -39,3 +39,4 @@ public class HomeScreen extends JFrame {
         setVisible(true);
     }
 }
+
