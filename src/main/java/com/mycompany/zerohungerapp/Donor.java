@@ -6,7 +6,7 @@ package com.mycompany.main;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
  */
 public class Donor {
 
@@ -42,3 +42,4 @@ public class Donor {
         return "DonorID: " + donorId + "\nName: " + name + "\nEmail: " + email + "\nPhone: " + phone;
     }
 }
+
