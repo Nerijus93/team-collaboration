@@ -6,7 +6,7 @@ package com.mycompany.main;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
  */
 public class Donation {
 
@@ -52,4 +52,5 @@ public class Donation {
                 + "\nImage: " + image;
     }
 }
+
 
