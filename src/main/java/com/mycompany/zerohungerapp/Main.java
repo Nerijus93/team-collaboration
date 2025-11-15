@@ -5,7 +5,7 @@ package com.mycompany.main;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
  */
 public class Main {
 
