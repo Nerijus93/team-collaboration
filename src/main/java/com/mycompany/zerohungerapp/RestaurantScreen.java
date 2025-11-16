@@ -54,6 +54,7 @@ public class RestaurantScreen extends javax.swing.JFrame {
         scheduleLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         scheduleList = new javax.swing.JList<>();
+        goBackButton = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -163,6 +164,13 @@ public class RestaurantScreen extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(scheduleList);
 
+        goBackButton.setText("Back to Home Screen");
+        goBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goBackButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,13 +220,15 @@ public class RestaurantScreen extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(removeFromScheduleListButton))
+                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(29, 29, 29)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(goBackButton)))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(218, 218, 218)
                                                 .addComponent(addDetailsButton)))
-                                        .addContainerGap(26, Short.MAX_VALUE))))))
+                                        .addContainerGap(24, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scheduleLabel)
                         .addGap(419, 419, 419)
@@ -264,15 +274,14 @@ public class RestaurantScreen extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(addDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                                .addGap(34, 34, 34))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(92, 92, 92))))))
+                                .addComponent(goBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+                        .addGap(34, 34, 34))))
         );
 
         pack();
@@ -318,6 +327,12 @@ public class RestaurantScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_removeFromScheduleListButtonActionPerformed
 
+    private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
+        // TODO add your handling code here:
+        new HomeScreen().setVisible(true);  // open Home Screen
+        dispose();
+    }//GEN-LAST:event_goBackButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -354,6 +369,7 @@ public class RestaurantScreen extends javax.swing.JFrame {
     private javax.swing.JLabel collectionQuantityLabel;
     private javax.swing.JTextField collectionTimeField;
     private javax.swing.JLabel collectionTimeLabel;
+    private javax.swing.JButton goBackButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

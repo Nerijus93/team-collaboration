@@ -8,49 +8,59 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 /**
+ * @author User
  * @author Tiyko - Ionut Ciobanu
  * @author ITwork
  */
 public class HomeScreen extends JFrame {
 
     public HomeScreen() {
-        setTitle("Zero Hunger App = Home");
-        setSize(400, 300);
+        setTitle("Zero Hunger App");
+        setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        JLabel pageTitleLabel = new JLabel("Welcome to The Zero Hunger App", SwingConstants.CENTER);
+
+        pageTitleLabel.setFont(pageTitleLabel.getFont().deriveFont(30f));
+
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 10, 10));
 
         JButton donationButton = new JButton("Donations Management");
         JButton memberButton = new JButton("Become a Member");
         JButton restaurantButton = new JButton("Restaurant Manager");
+        
+        panel.setLayout(new GridLayout(0, 1));
 
         // OPEN DonationScreen and SHOW it
         donationButton.addActionListener(e -> {
-            DonationScreen ds = new DonationScreen(); // create the window
-            ds.setVisible(true);                      // ensure it's shown
-            dispose();                                // optional: close home screen
+            DonationScreen ds = new DonationScreen();
+            ds.setVisible(true);
+            dispose();
         });
-        
+
         restaurantButton.addActionListener(e -> {
-            RestaurantScreen rs = new RestaurantScreen();   // create the window
-            rs.setVisible(true);                            // ensure it's shown
-            dispose();                                      // optional: close home screen
+            RestaurantScreen rs = new RestaurantScreen();
+            rs.setVisible(true);
+            dispose();
         });
-        
 
-        memberButton.addActionListener(e -> 
-            JOptionPane.showMessageDialog(null, "Opening Member Registration..."));
+        memberButton.addActionListener(e -> {
+            MembershipSection ms = new MembershipSection();
+            ms.setVisible(true);
+            dispose();
+        });
 
-//        restaurantButton.addActionListener(e -> 
-//            JOptionPane.showMessageDialog(null, "Opening Restaurant Manager..."));
+        add(pageTitleLabel, "North");
 
         panel.add(donationButton);
+
         panel.add(memberButton);
+
         panel.add(restaurantButton);
 
         add(panel);
+
         setVisible(true);
     }
 }
