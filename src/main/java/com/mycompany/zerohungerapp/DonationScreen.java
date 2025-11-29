@@ -4,11 +4,13 @@
  */
 package com.mycompany.zerohungerapp;
 
-import com.mycompany.zerohungerapp.Donation;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -16,19 +18,38 @@ import java.util.List;
  */
 public class DonationScreen extends javax.swing.JFrame {
 
+    private HomeScreen parent;
+
+    public DonationScreen(HomeScreen inParent) {
+        initComponents();
+        parent = inParent;
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                parent.setVisible(true);
+                dispose();
+
+            }
+        });
+    }
+
     // Logger for any potential errors
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DonationScreen.class.getName());
 
+    private DonationManager donationManager = new DonationManager();
     // List to hold donations
     private List<Donation> donations;
 
     /**
      * Creates new form DonationScreen
      */
-    
-    public DonationScreen(JButton goBack1Button, JButton goBack2Button) {
-        this.goBack1Button = goBack1Button;
-        this.goBack2Button = goBack2Button;
+    public DonationScreen(JButton goBack1Button) {
+        this.goBackButton = goBack1Button;
+
     }
 
     public DonationScreen() {
@@ -50,36 +71,29 @@ public class DonationScreen extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        personTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        donorLabel = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        donorText = new javax.swing.JTextField();
-        dateText = new javax.swing.JTextField();
-        typeOfFoodText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        goBack1Button = new javax.swing.JButton();
-        quantityLabel = new javax.swing.JLabel();
-        quantityText = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        personalDetailsTitle = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        LastNameLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
-        mPhoneLabel = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        phoneLabel = new javax.swing.JLabel();
         nameText = new javax.swing.JTextField();
         lastNameText = new javax.swing.JTextField();
         emailText = new javax.swing.JTextField();
         phoneText = new javax.swing.JTextField();
-        goBack2Button = new javax.swing.JButton();
+        donationDetailsTitle = new javax.swing.JLabel();
+        dateLabel = new javax.swing.JLabel();
+        typeOfFoodLabel = new javax.swing.JLabel();
+        quantityLabel = new javax.swing.JLabel();
+        dateText = new javax.swing.JTextField();
+        typeOfFoodText = new javax.swing.JTextField();
+        quantityText = new javax.swing.JTextField();
         printTheListButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        printTextArea = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        goBackButton = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listOfDonationsTextArea = new javax.swing.JTextArea();
+        searchButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -94,11 +108,28 @@ public class DonationScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        donorLabel.setText("Donor:");
+        personalDetailsTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        personalDetailsTitle.setText("PERSONAL DETAILS");
+        personalDetailsTitle.setToolTipText("");
+        personalDetailsTitle.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel2.setText("Enter Date:");
+        nameLabel.setText("Enter your Name:");
 
-        jLabel3.setText("Type of Food:");
+        LastNameLabel.setText("Enter your Last Name:");
+
+        emailLabel.setText("Enter your E-mail Address:");
+
+        phoneLabel.setText("Enter your Phone Number:");
+
+        donationDetailsTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        donationDetailsTitle.setText("DONATION DETAILS");
+        donationDetailsTitle.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        dateLabel.setText("Enter Date:");
+
+        typeOfFoodLabel.setText("Type of Food:");
+
+        quantityLabel.setText("Enter Quantity:");
 
         dateText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,205 +137,154 @@ public class DonationScreen extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("List of Donors");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Display the list....");
-        jScrollPane1.setViewportView(jTextArea1);
-
-        goBack1Button.setText("Back to Home Screen");
-        goBack1Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                goBack1ButtonActionPerformed(evt);
-            }
-        });
-
-        quantityLabel.setText("Quantity:");
-
-        quantityText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantityTextActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Donation");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
-                .addGap(277, 277, 277))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(donorLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(donorText)
-                            .addComponent(dateText)
-                            .addComponent(typeOfFoodText)
-                            .addComponent(quantityText)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
-                        .addComponent(goBack1Button, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(donorLabel)
-                    .addComponent(donorText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeOfFoodText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(quantityText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(quantityLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(goBack1Button, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        personTabbedPane.addTab("Donation", jPanel2);
-
-        jLabel1.setText("Enter your Name:");
-
-        emailLabel.setText("Enter your E-mail:");
-
-        mPhoneLabel.setText("Enter your phone number:");
-
-        jLabel4.setText("Enter your Last Name:");
-
-        goBack2Button.setText("Back to Home Screen");
-        goBack2Button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                goBack2ButtonActionPerformed(evt);
-            }
-        });
-
+        printTheListButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         printTheListButton.setText("Print the List");
-
-        printTextArea.setColumns(20);
-        printTextArea.setRows(5);
-        printTextArea.setText("Print all Personal information....");
-        jScrollPane2.setViewportView(printTextArea);
-
-        jLabel6.setText("Person");
-
-        jButton2.setText("Choose Your Profile Picture");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        printTheListButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                printTheListButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(280, 280, 280)
-                .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(mPhoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(emailText)
-                            .addComponent(phoneText)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
-                            .addComponent(printTheListButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(goBack2Button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nameText)
-                            .addComponent(lastNameText))))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(17, 17, 17)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(lastNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mPhoneLabel)
-                    .addComponent(phoneText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(printTheListButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(goBack2Button, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        saveButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
-        personTabbedPane.addTab("Person", jPanel3);
+        goBackButton.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        goBackButton.setText("Back to Home Screen");
+        goBackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goBackButtonActionPerformed(evt);
+            }
+        });
+
+        listOfDonationsTextArea.setColumns(20);
+        listOfDonationsTextArea.setRows(5);
+        listOfDonationsTextArea.setText("List of Donors and Donations...");
+        jScrollPane1.setViewportView(listOfDonationsTextArea);
+
+        searchButton.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(personTabbedPane)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(personalDetailsTitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(donationDetailsTitle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(LastNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(phoneLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(emailText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                                    .addComponent(lastNameText, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nameText, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(phoneText)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(dateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(typeOfFoodLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dateText)
+                                    .addComponent(typeOfFoodText)
+                                    .addComponent(quantityText)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(printTheListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(goBackButton))
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(personTabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(personalDetailsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nameLabel)
+                            .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LastNameLabel)
+                            .addComponent(lastNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailLabel)
+                            .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(phoneLabel)
+                            .addComponent(phoneText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(donationDetailsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dateLabel)
+                            .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(typeOfFoodLabel)
+                            .addComponent(typeOfFoodText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(quantityLabel)
+                            .addComponent(quantityText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 10, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(goBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(printTheListButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -314,25 +294,146 @@ public class DonationScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dateTextActionPerformed
 
-    private void quantityTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityTextActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_quantityTextActionPerformed
+        // PERSON FIELDS
+        String name = nameText.getText().trim();
+        String lastName = lastNameText.getText().trim();
+        String email = emailText.getText().trim();
+        String phone = phoneText.getText().trim();
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        // DONATION FIELDS
+        String date = dateText.getText().trim();
+        String foodType = typeOfFoodText.getText().trim();
+        String quantityStr = quantityText.getText().trim();
 
-    private void goBack1ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBack1ButtonActionPerformed
-        // TODO add your handling code here:
-        new HomeScreen().setVisible(true);  // open Home Screen
-        dispose();                          // close current window
-    }//GEN-LAST:event_goBack1ButtonActionPerformed
+        // ---------- VALIDATION ----------
+        if (name.isEmpty() || lastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Name and Last Name cannot be empty.");
+            return;
+        }
 
-    private void goBack2ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBack2ButtonActionPerformed
+        if (!email.contains("@")) {
+            JOptionPane.showMessageDialog(this, "Email is not valid. It must contain '@'.");
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone number cannot be empty.");
+            return;
+        }
+        try {
+            Long.valueOf(phone);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Phone number must contain only numbers.");
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        sdf.setLenient(false); // strict parsing
+        try {
+            sdf.parse(date); // throws ParseException if format is wrong
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Date must be in the format DD/MM/YY.");
+            return;
+        }
+
+        if (foodType.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Food Type cannot be empty.");
+            return;
+        }
+
+        int quantity;
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            if (quantity <= 0) {
+                JOptionPane.showMessageDialog(this, "Quantity must be a number greater than 0.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantity must be a valid number.");
+            return;
+        }
+
+        Donor donor = new Donor(name, lastName, email, phone);
+        Donation donation = new Donation(donor, date, foodType, quantity);
+
+        DonationManager.addDonation(donation);
+
+        JOptionPane.showMessageDialog(this, "Donation saved successfully!");
+
+        nameText.setText("");
+        lastNameText.setText("");
+        emailText.setText("");
+        phoneText.setText("");
+        dateText.setText("");
+        typeOfFoodText.setText("");
+        quantityText.setText("");
+    }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
         // TODO add your handling code here:
-        new HomeScreen().setVisible(true);  // open Home Screen
-        dispose();                          // close current window
-    }//GEN-LAST:event_goBack2ButtonActionPerformed
+        new HomeScreen().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_goBackButtonActionPerformed
+
+    private void printTheListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printTheListButtonActionPerformed
+        // TODO add your handling code here:
+        listOfDonationsTextArea.setText(""); // clear previous text
+
+        if (DonationManager.getDonations().isEmpty()) {
+            listOfDonationsTextArea.setText("No donations recorded yet!");
+            return;
+        }
+
+        for (Donation d : DonationManager.getDonations()) {
+            listOfDonationsTextArea.append(
+                    "Donation ID: " + d.getDonationId() + "\n"
+                    + "Donor: " + d.getDonor().getName() + " " + d.getDonor().getLastName() + "\n"
+                    + "Email: " + d.getDonor().getEmail() + "\n"
+                    + "Phone: " + d.getDonor().getPhone() + "\n"
+                    + "Date: " + d.getDate() + "\n"
+                    + "Food Type: " + d.getTypeOfFood() + "\n"
+                    + "Quantity: " + d.getQuantity() + "\n"
+                    + "-----------------------------------------\n"
+            );
+        }
+    }//GEN-LAST:event_printTheListButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        String idStr = JOptionPane.showInputDialog(this, "Enter Donation ID to delete:");
+        if (idStr != null && !idStr.trim().isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr.trim());
+                boolean deleted = DonationManager.deleteDonation(id);
+                if (deleted) {
+                    JOptionPane.showMessageDialog(this, "Donation deleted successfully!");
+                    listOfDonationsTextArea.setText(""); // clear or refresh list
+                } else {
+                    JOptionPane.showMessageDialog(this, "Donation ID not found.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid Donation ID.");
+            }
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+        String name = JOptionPane.showInputDialog(this, "Enter Donor Name to search:");
+        if (name != null && !name.trim().isEmpty()) {
+            ArrayList<Donation> results = DonationManager.searchDonationsByDonorName(name.trim());
+            if (results.isEmpty()) {
+                listOfDonationsTextArea.setText("No donations found for donor: " + name);
+            } else {
+                listOfDonationsTextArea.setText("");
+                for (Donation d : results) {
+                    listOfDonationsTextArea.append(d.toString() + "\n----------------------\n");
+                }
+            }
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,36 +461,29 @@ public class DonationScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LastNameLabel;
+    private javax.swing.JLabel dateLabel;
     private javax.swing.JTextField dateText;
-    private javax.swing.JLabel donorLabel;
-    private javax.swing.JTextField donorText;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel donationDetailsTitle;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailText;
-    private javax.swing.JButton goBack1Button;
-    private javax.swing.JButton goBack2Button;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton goBackButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastNameText;
-    private javax.swing.JLabel mPhoneLabel;
+    private javax.swing.JTextArea listOfDonationsTextArea;
+    private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameText;
-    private javax.swing.JTabbedPane personTabbedPane;
+    private javax.swing.JLabel personalDetailsTitle;
+    private javax.swing.JLabel phoneLabel;
     private javax.swing.JTextField phoneText;
-    private javax.swing.JTextArea printTextArea;
     private javax.swing.JButton printTheListButton;
     private javax.swing.JLabel quantityLabel;
     private javax.swing.JTextField quantityText;
+    private javax.swing.JButton saveButton;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JLabel typeOfFoodLabel;
     private javax.swing.JTextField typeOfFoodText;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,12 +4,14 @@
  */
 package com.mycompany.zerohungerapp;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author ITwork
  */
 public class MembershipSection extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MembershipSection.class.getName());
 
     /**

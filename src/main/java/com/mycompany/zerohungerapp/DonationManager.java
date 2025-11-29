@@ -8,22 +8,35 @@ import java.util.ArrayList;
 
 public class DonationManager {
 
-    private ArrayList<Donation> donationList;
+    private static ArrayList<Donation> donations = new ArrayList<>();
 
-    public DonationManager() {
-        donationList = new ArrayList<>();
+    public static void addDonation(Donation d) {
+        donations.add(d);
     }
 
-    public void addDonation(Donation donation) {
-        donationList.add(donation);
-        System.out.println("Donation added: " + donation.getTypeOfFood());
+    public static ArrayList<Donation> getDonations() {
+        return donations;
     }
 
-    public void listDonations() {
-        for (Donation d : donationList) {
-            System.out.println("-----");
-            System.out.println(d.viewDonation());
+    // Search donations by donor Name
+    public static ArrayList<Donation> searchDonationsByDonorName(String name) {
+        ArrayList<Donation> results = new ArrayList<>();
+        for (Donation d : donations) {
+            if (d.getDonor().getName().equalsIgnoreCase(name)) {
+                results.add(d);
+            }
         }
+        return results;
+    }
+    
+    // Delete donation by Donor ID
+    public static boolean deleteDonation(int donationId) {
+        for (Donation d : donations) {
+            if (d.getDonationId() == donationId) {
+                donations.remove(d);
+                return true; // deleted successfully
+            }
+        }
+        return false; // not found
     }
 }
-

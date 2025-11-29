@@ -13,9 +13,11 @@ public abstract class Person {
     protected String name;
     protected String email;
     protected String phone;
+    protected String lastName;
 
-    public Person(String name, String email, String phone) {
+    public Person(String name, String lastName, String email, String phone) {
         this.name = name;
+        this.lastName = lastName;
         this.email = email;
         this.phone = phone;
     }
@@ -25,5 +27,25 @@ public abstract class Person {
         return name;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     public abstract String getRoleInfo();
+
+    @Override
+    public String toString() {
+        return "Name: " + name + 
+                "\nLast Name: " + lastName + 
+                "\nEmail: " + email + 
+                "\nPhone: " + phone;
+    }
 }

@@ -9,6 +9,7 @@ com\mycompany\zerohungerapp\HomeScreen.class
 com\mycompany\zerohungerapp\DonationScreen.class
 com\mycompany\zerohungerapp\DonationScreen$5.class
 com\mycompany\zerohungerapp\MembershipSection$2.class
+com\mycompany\zerohungerapp\DonationScreen$7.class
 com\mycompany\zerohungerapp\MembershipSection.class
 com\mycompany\zerohungerapp\RestaurantScreen$4.class
 com\mycompany\zerohungerapp\RestaurantScreen$7.class
@@ -21,6 +22,7 @@ com\mycompany\zerohungerapp\DonationScreen$3.class
 com\mycompany\zerohungerapp\MembershipSection$1.class
 com\mycompany\zerohungerapp\RestaurantScreen$2.class
 com\mycompany\zerohungerapp\MembershipSection$8.class
+com\mycompany\zerohungerapp\RestaurantScreen$13.class
 com\mycompany\zerohungerapp\MembershipSection$4.class
 com\mycompany\zerohungerapp\Restaurant.class
 com\mycompany\zerohungerapp\RestaurantScreen$6.class
@@ -34,5 +36,6 @@ com\mycompany\zerohungerapp\RestaurantManager.class
 com\mycompany\zerohungerapp\Person.class
 com\mycompany\zerohungerapp\CollectionSchedule.class
 com\mycompany\zerohungerapp\RestaurantScreen$8.class
+com\mycompany\zerohungerapp\DonationScreen$6.class
 com\mycompany\zerohungerapp\RestaurantScreen$3.class
 com\mycompany\zerohungerapp\Main.class

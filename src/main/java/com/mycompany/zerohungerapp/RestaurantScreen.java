@@ -4,11 +4,32 @@
  */
 package com.mycompany.zerohungerapp;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Tiyko - Ionut Ciobanu
  */
 public class RestaurantScreen extends javax.swing.JFrame {
+    
+        private HomeScreen parent;
+
+    public RestaurantScreen(HomeScreen inParent) {
+        initComponents();
+        parent = inParent;
+
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                parent.setVisible(true);
+                dispose();
+
+            }
+        });
+    }
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RestaurantScreen.class.getName());
 
