@@ -30,7 +30,7 @@ public class DonationScreen extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
-            
+
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 parent.setVisible(true);
@@ -459,33 +459,34 @@ public class DonationScreen extends javax.swing.JFrame {
 
     private void profilePictureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePictureButtonActionPerformed
         // TODO add your handling code here:
-                JFileChooser fileChooser = new JFileChooser();
-        
+
+        JFileChooser fileChooser = new JFileChooser();
+
         //User is allowed to upload only image file as described below
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Image Files", "jpg", "jpeg", "png", "gif", "webp");
         fileChooser.setFileFilter(filter);
-        
+
         int result = fileChooser.showOpenDialog(this);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            
+
             //Load the original size image
             ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
             Image originalImage = imageIcon.getImage();
-            
+
             //Resize it to match my window of (92 width by 83 height)
             Image resizedImage = originalImage.getScaledInstance(
-                    92,83, Image.SCALE_SMOOTH
+                    92, 83, Image.SCALE_SMOOTH
             );
-            
+
             //Create image icon from resized image
             ImageIcon resizedIcon = new ImageIcon(resizedImage);
-            
+
             //Set resized image to ImageIconLabel
             imageIconLabel.setIcon(resizedIcon);
-        }         
+        }
     }//GEN-LAST:event_profilePictureButtonActionPerformed
 
     /**

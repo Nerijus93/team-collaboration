@@ -12,6 +12,7 @@ public class Donor extends Person {
 
     private static int nextId = 1; //auto increment counter by 1 for donorId
     private final int donorId;
+    private String imagePath;
 
     public Donor(String name, String lastName, String email, String phone) {
         super(name, lastName, email, phone);
