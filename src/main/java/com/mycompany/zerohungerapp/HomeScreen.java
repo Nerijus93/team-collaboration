@@ -40,13 +40,13 @@ public class HomeScreen extends JFrame {
         restaurantButton.addActionListener(e -> {
             RestaurantScreen rs = new RestaurantScreen();
             rs.setVisible(true);
-            rs.setVisible(false);
+            this.setVisible(false);
         });
 
         memberButton.addActionListener(e -> {
-            MembershipSection ms = new MembershipSection();
-            ms.setVisible(true);
-            ms.setVisible(false);
+            BecomeMemberSection bms = new BecomeMemberSection();
+            bms.setVisible(true);
+            this.setVisible(false);
         });
 
         add(pageTitleLabel, "North");
