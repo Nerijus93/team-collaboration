@@ -105,9 +105,9 @@ import java.util.List;
 
         collectionTimeLabel.setText("Time:");
 
-        collectionFoodTypeLabel.setText("Food Type:");
+        collectionFoodTypeLabel.setText("Food Name:");
 
-        collectionQuantityLabel.setText("Food Quantity:");
+        collectionQuantityLabel.setText("Food Quantity: KG ");
 
         restaurantNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,12 +133,14 @@ import java.util.List;
             }
         });
 
+        collectionDateField.setText("yyyy-mm-dd");
         collectionDateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 collectionDateFieldActionPerformed(evt);
             }
         });
 
+        collectionTimeField.setText("hh:mm");
         collectionTimeField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 collectionTimeFieldActionPerformed(evt);

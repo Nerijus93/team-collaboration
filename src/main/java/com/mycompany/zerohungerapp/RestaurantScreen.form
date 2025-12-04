@@ -257,12 +257,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="collectionFoodTypeLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Food Type:"/>
+        <Property name="text" type="java.lang.String" value="Food Name:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="collectionQuantityLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Food Quantity:"/>
+        <Property name="text" type="java.lang.String" value="Food Quantity: KG "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="restaurantNameField">
@@ -286,11 +286,17 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="collectionDateField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="yyyy-mm-dd"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="collectionDateFieldActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="collectionTimeField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="hh:mm"/>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="collectionTimeFieldActionPerformed"/>
       </Events>
