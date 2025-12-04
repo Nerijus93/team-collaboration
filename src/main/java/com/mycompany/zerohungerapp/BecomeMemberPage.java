@@ -1,3 +1,8 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 /* BecomeMemberPage is my page that allows a user to "sign up" to ZEROHunger and become a member with a role within the organisation and save their info to a txt file*/
 
 /*
@@ -25,7 +30,7 @@ public class BecomeMemberPage extends JFrame {
 };
 
 
-    //This code allows me to close the page with the x button but not close the entire app
+    //This code allows me to go back to the BecomeMemberSection using either a button or the x
     
     private void goBackToHome() {
         new BecomeMemberSection().setVisible(true);

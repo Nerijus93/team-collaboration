@@ -1,3 +1,8 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 /*This section is dedicated to allow the user to see the members of the ZERO HUNGER organisation and their details as it is stored in a txt file*/
 /* It also allows the Manager to Delete a user from the system*/
 
@@ -37,12 +42,12 @@ public class ViewCurrentMembersPage extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Here the JLabel for the title is created and is centered with a font size of 20
+        //Here the JLabel for the title is created and is centered with a font size of 20
         
         JLabel title = new JLabel("View Current Members", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(20f));
 
-        // This is the code for the display area of the members that adjusts font size and makes it scrollable if theres too much text
+        //This is the code for the display area of the members that adjusts font size and makes it scrollable if theres too much text
         
         displayCurrentMembers = new JTextArea();
         
@@ -50,7 +55,7 @@ public class ViewCurrentMembersPage extends JFrame {
         displayCurrentMembers.setFont(new Font("Monospaced", Font.PLAIN, 14));
         JScrollPane scrollPane = new JScrollPane(displayCurrentMembers);
 
-        // Declaring buttons for specific tasks (delete a member and go back buttons)
+        //Declaring buttons for specific tasks (delete a member and go back buttons)
         
         JButton backBtn = new JButton("Go Back");
         JButton deleteBtn = new JButton ("Delete a Member");
@@ -129,7 +134,7 @@ public class ViewCurrentMembersPage extends JFrame {
         return;
     }
     
-    //But if there are members, loop the memberDatabase and find all the information of active members and display them in the display area
+    //But if there are members, loop the memberDatabase (and txt file where data is stored) and find all the information (excluding password) of active members and display them in the display area
     
     for (Member m : MemberDatabase.getMembers()) {
         displayCurrentMembers.append(m.toString() + "\n\n--------------------\n\n");// -------- makes a nice divide between each member for clearer viewing

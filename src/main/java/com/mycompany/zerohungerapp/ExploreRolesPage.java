@@ -1,3 +1,8 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 /*The explore roles page is dedicated to allow the user to search for their role and find out what they can do within the organisation*/
 
 /*

@@ -1,3 +1,8 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 /* This is the membership section created by Aidas Kibas. It contains 3 distinct sections for users who wish to become members of Zero Hunger */
 
 /*

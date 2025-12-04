@@ -1,4 +1,9 @@
-/*This is an Instantiable class that is made to work alongside the BecomeMemberPage and ViewCurrentMembersPage*/
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/*This is an Instantiable class that is made to work alongside the BecomeMemberPage and ViewCurrentMembersPage and MemberDatabase*/
 
 /*
 Aidas Kibas 
@@ -20,7 +25,7 @@ public class Member {
     
     //Member constructor takes 6 pieces of info from the form in becomeMemberPage and assigns them into their own dedicated fields for later
 
-    public Member(String fullName, String email, String contactNumber, String password, String imagePath, String role) {
+    public Member(String fullName, String email, String password, String contactNumber, String imagePath, String role) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
