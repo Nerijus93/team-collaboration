@@ -4,41 +4,36 @@
  */
 package com.mycompany.zerohungerapp;
 
-import javax.swing.JFrame;
-
 /**
  *
  * @author Tiyko - Ionut Ciobanu
  */
-public class RestaurantScreen extends javax.swing.JFrame {
-    
-        private HomeScreen parent;
 
-    public RestaurantScreen(HomeScreen inParent) {
-        initComponents();
-        parent = inParent;
+import javax.swing.*;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    public class RestaurantScreen extends javax.swing.JFrame {
 
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                parent.setVisible(true);
-                dispose();
+        private static final java.util.logging.Logger logger =
+                java.util.logging.Logger.getLogger(RestaurantScreen.class.getName());
 
-            }
-        });
-    }
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RestaurantScreen.class.getName());
+        private RestaurantManager restaurantManager = new RestaurantManager();
+        private List<CollectionSchedule> scheduleData = new ArrayList<>();
+        private DefaultListModel<String> scheduleListModel = new DefaultListModel<>();
 
-    /**
-     * Creates new form RestaurantScreen
-     */
-    public RestaurantScreen() {
-        initComponents();
-    }
+        private static final String SCHEDULE_FILE = "schedules.txt";
+
+        public RestaurantScreen() {
+            initComponents();
+            scheduleList.setModel(scheduleListModel);
+
+            // Load schedules when app starts
+            loadSchedules();
+            refreshScheduleList();
+        }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -197,112 +192,116 @@ public class RestaurantScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(restaurantNameLabel)
-                            .addComponent(restaurantAddressLabel)
-                            .addComponent(restaurantEmailAddressLabel)
-                            .addComponent(restaurantPhoneNumberLabel))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addDetailsButton)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(restaurantDetailsLabel)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(restaurantNameField)
-                                            .addComponent(restaurantAddressField)
-                                            .addComponent(restaurantEmailAddressField)
-                                            .addComponent(restaurantPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(collectionQuantityLabel)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(collectionQuantityField))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(collectionFoodTypeLabel)
-                                                .addGap(38, 38, 38)
-                                                .addComponent(collectionFoodTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(collectionDateLabel)
-                                                    .addComponent(collectionTimeLabel))
-                                                .addGap(67, 67, 67)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(collectionDateField)
-                                                    .addComponent(collectionTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                        .addGap(29, 29, 29))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(29, 29, 29)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(goBackButton)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(218, 218, 218)
-                                                .addComponent(addDetailsButton)))
-                                        .addContainerGap(24, Short.MAX_VALUE))))))
+                                    .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(scheduleLabel))
+                                .addGap(12, 12, 12)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 979, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(25, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(scheduleLabel)
-                        .addGap(419, 419, 419)
-                        .addComponent(collectionDetailsLabel)
-                        .addContainerGap())))
+                        .addComponent(goBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(restaurantNameLabel)
+                                        .addComponent(restaurantAddressLabel)
+                                        .addComponent(restaurantEmailAddressLabel)
+                                        .addComponent(restaurantPhoneNumberLabel))
+                                    .addGap(320, 320, 320))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addGap(161, 161, 161)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(restaurantNameField)
+                                        .addComponent(restaurantAddressField)
+                                        .addComponent(restaurantEmailAddressField)
+                                        .addComponent(restaurantPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(restaurantDetailsLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(collectionQuantityLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(collectionQuantityField))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(collectionFoodTypeLabel)
+                                .addGap(38, 38, 38)
+                                .addComponent(collectionFoodTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(collectionDateLabel)
+                                    .addComponent(collectionTimeLabel))
+                                .addGap(67, 67, 67)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(collectionDateField)
+                                    .addComponent(collectionTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(collectionDetailsLabel)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(restaurantDetailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(collectionDetailsLabel))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(restaurantNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(restaurantNameLabel)
-                    .addComponent(collectionDateLabel)
-                    .addComponent(collectionDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(restaurantAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(restaurantAddressLabel)
-                    .addComponent(collectionTimeLabel)
-                    .addComponent(collectionTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(restaurantEmailAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(restaurantEmailAddressLabel)
-                    .addComponent(collectionFoodTypeLabel)
-                    .addComponent(collectionFoodTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(restaurantPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(restaurantPhoneNumberLabel)
-                    .addComponent(collectionQuantityLabel)
-                    .addComponent(collectionQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scheduleLabel)
-                        .addGap(115, 115, 115))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(addDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(restaurantDetailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(collectionDetailsLabel)))
+                    .addComponent(goBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(collectionDateLabel)
+                            .addComponent(collectionDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(collectionTimeLabel)
+                            .addComponent(collectionTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(collectionFoodTypeLabel)
+                            .addComponent(collectionFoodTypeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(collectionQuantityLabel)
+                            .addComponent(collectionQuantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(restaurantNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(restaurantNameLabel))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(goBackButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
-                        .addGap(34, 34, 34))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(restaurantAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(restaurantAddressLabel))
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(restaurantEmailAddressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(restaurantEmailAddressLabel))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(restaurantPhoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(restaurantPhoneNumberLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(addDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(120, 120, 120)
+                                .addComponent(scheduleLabel)
+                                .addGap(93, 93, 93)
+                                .addComponent(removeFromScheduleListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(127, Short.MAX_VALUE))))
         );
 
         pack();
@@ -341,13 +340,102 @@ public class RestaurantScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_collectionQuantityFieldActionPerformed
 
     private void addDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDetailsButtonActionPerformed
-        // TODO add your handling code here:
+       try {
+            String name = restaurantNameField.getText();
+            String address = restaurantAddressField.getText();
+            String email = restaurantEmailAddressField.getText();
+            String phone = restaurantPhoneNumberField.getText();
+
+            int restaurantID = restaurantManager.listRestaurants().size() + 1;
+            Restaurant restaurant = new Restaurant(restaurantID, name, address, email + " | " + phone);
+            restaurantManager.addRestaurant(restaurant);
+
+            LocalDate collectionDate = LocalDate.parse(collectionDateField.getText()); // yyyy-MM-dd
+            String time = collectionTimeField.getText();
+            String foodType = collectionFoodTypeField.getText();
+            int quantity = Integer.parseInt(collectionQuantityField.getText());
+
+            int scheduleID = scheduleData.size() + 1;
+            CollectionSchedule schedule = new CollectionSchedule(
+                    scheduleID, restaurant, collectionDate, time, foodType, quantity);
+
+            scheduleData.add(schedule);
+            scheduleListModel.addElement(schedule.toString());
+
+            saveSchedules(); // Save immediately
+
+            JOptionPane.showMessageDialog(this, "Details added successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error adding details: " + e.getMessage());
+            logger.log(java.util.logging.Level.SEVERE, null, e);
+        }
     }//GEN-LAST:event_addDetailsButtonActionPerformed
 
     private void removeFromScheduleListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromScheduleListButtonActionPerformed
-        // TODO add your handling code here:
+                int selectedIndex = scheduleList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            scheduleData.remove(selectedIndex);
+            scheduleListModel.remove(selectedIndex);
+            saveSchedules();
+            JOptionPane.showMessageDialog(this, "Schedule removed successfully!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a schedule to remove.");
+        }
     }//GEN-LAST:event_removeFromScheduleListButtonActionPerformed
 
+           // Save schedules to TXT file
+    private void saveSchedules() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(SCHEDULE_FILE))) {
+            for (CollectionSchedule s : scheduleData) {
+                writer.write(s.getScheduleID() + ";" +
+                             s.getRestaurant().getRestaurantID() + ";" +
+                             s.getRestaurant().getName() + ";" +
+                             s.getCollectionDate() + ";" +
+                             s.getTime() + ";" +
+                             s.getFoodType() + ";" +
+                             s.getFoodQuantity());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        // Load schedules from TXT file
+    private void loadSchedules() {
+        scheduleData.clear();
+        try (BufferedReader reader = new BufferedReader(new FileReader(SCHEDULE_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(";");
+                if (parts.length == 7) {
+                    int scheduleID = Integer.parseInt(parts[0]);
+                    int restaurantID = Integer.parseInt(parts[1]);
+                    String restaurantName = parts[2];
+                    LocalDate date = LocalDate.parse(parts[3]);
+                    String time = parts[4];
+                    String foodType = parts[5];
+                    int quantity = Integer.parseInt(parts[6]);
+
+                    Restaurant restaurant = new Restaurant(restaurantID, restaurantName, "N/A", "N/A");
+                    CollectionSchedule schedule = new CollectionSchedule(
+                            scheduleID, restaurant, date, time, foodType, quantity);
+
+                    scheduleData.add(schedule);
+                }
+            }
+        } catch (IOException e) {
+           System.out.println("Hello, error!");
+        }
+    }
+
+    private void refreshScheduleList() {
+        scheduleListModel.clear();
+        for (CollectionSchedule s : scheduleData) {
+            scheduleListModel.addElement(s.toString());
+        }
+    }
+    
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
         // TODO add your handling code here:
         new HomeScreen().setVisible(true);  // open Home Screen

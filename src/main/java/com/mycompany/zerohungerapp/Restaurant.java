@@ -30,7 +30,7 @@ public class Restaurant {
         this.restaurantID = restaurantID;
     }
 
-    public String getName() {
+    public String getName() { 
         return name;
     }
 

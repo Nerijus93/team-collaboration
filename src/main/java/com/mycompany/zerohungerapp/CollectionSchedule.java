@@ -12,79 +12,37 @@ import java.time.LocalDate;
 
 public class CollectionSchedule {
     private int scheduleID;
-    private Restaurant restaurant; // FK reference
+    private Restaurant restaurant;
     private LocalDate collectionDate;
-    private String timeSlot;
+    private String time;
     private String foodType;
-    private String dateNewTimeSlot; // Optional metadata
+    private int foodQuantity;
 
     public CollectionSchedule(int scheduleID, Restaurant restaurant, LocalDate collectionDate,
-                              String timeSlot, String foodType, String dateNewTimeSlot) {
+                              String time, String foodType, int foodQuantity) {
         this.scheduleID = scheduleID;
         this.restaurant = restaurant;
         this.collectionDate = collectionDate;
-        this.timeSlot = timeSlot;
+        this.time = time;
         this.foodType = foodType;
-        this.dateNewTimeSlot = dateNewTimeSlot;
+        this.foodQuantity = foodQuantity;
     }
 
-    // Getters and Setters
-    public int getScheduleID() {
-        return scheduleID;
-    }
-
-    public void setScheduleID(int scheduleID) {
-        this.scheduleID = scheduleID;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
-    public LocalDate getCollectionDate() {
-        return collectionDate;
-    }
-
-    public void setCollectionDate(LocalDate collectionDate) {
-        this.collectionDate = collectionDate;
-    }
-
-    public String getTimeSlot() {
-        return timeSlot;
-    }
-
-    public void setTimeSlot(String timeSlot) {
-        this.timeSlot = timeSlot;
-    }
-
-    public String getFoodType() {
-        return foodType;
-    }
-
-    public void setFoodType(String foodType) {
-        this.foodType = foodType;
-    }
-
-    public String getDateNewTimeSlot() {
-        return dateNewTimeSlot;
-    }
-
-    public void setDateNewTimeSlot(String dateNewTimeSlot) {
-        this.dateNewTimeSlot = dateNewTimeSlot;
-    }
+    public int getScheduleID() { return scheduleID; }
+    public Restaurant getRestaurant() { return restaurant; }
+    public LocalDate getCollectionDate() { return collectionDate; }
+    public String getTime() { return time; }
+    public String getFoodType() { return foodType; }
+    public int getFoodQuantity() { return foodQuantity; }
 
     @Override
     public String toString() {
-        return "CollectionSchedule{" +
-                "scheduleID=" + scheduleID +
-                ", restaurantID=" + restaurant.getRestaurantID() +
-                ", collectionDate=" + collectionDate +
-                ", timeSlot='" + timeSlot + '\'' +
-                ", foodType='" + foodType + '\'' +
-                '}';
+        return "Schedule Number : " + scheduleID + " - " +
+               " Restaurant Number: " + restaurant.getRestaurantID() + " - " +
+               " Restaurant Name: " + restaurant.getName() + " - " +
+               " Collection Date: " + collectionDate + " - " +
+               " Collection Time: " + time + " - " +
+               " Food Type: " + foodType + " - " +
+               " Food Quantity: " + foodQuantity;
     }
 }
