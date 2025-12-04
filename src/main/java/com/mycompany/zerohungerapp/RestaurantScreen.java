@@ -33,6 +33,18 @@ import java.util.List;
             // Load schedules when app starts
             loadSchedules();
             refreshScheduleList();
+            
+            //Last minute implementation to make the x button bring the user back to the home screen rather than turn the app off completely
+            
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            new HomeScreen().setVisible(true);
+            dispose();
+        }
+    });
+    
         }
 
     /**
