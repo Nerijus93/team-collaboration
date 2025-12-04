@@ -33,7 +33,7 @@ public class HomeScreen extends JFrame {
         JButton memberButton = new JButton("Become a Member");
         JButton restaurantButton = new JButton("Restaurant Manager");
 
-        // OPEN DonationScreen and SHOW it
+        // OPEN DonationScreen and show it
         donationButton.addActionListener(e -> {
             DonationScreen ds = new DonationScreen(this);
             ds.setVisible(true);
