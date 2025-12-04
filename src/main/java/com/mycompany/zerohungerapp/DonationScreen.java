@@ -316,7 +316,6 @@ public class DonationScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_dateTextActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
         //Personal fields
         String name = nameText.getText().trim();
         String lastName = lastNameText.getText().trim();
@@ -410,7 +409,7 @@ public class DonationScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
-        // TODO add your handling code here:
+        //After pressing go back button it will return to home screen
         new HomeScreen().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_goBackButtonActionPerformed
