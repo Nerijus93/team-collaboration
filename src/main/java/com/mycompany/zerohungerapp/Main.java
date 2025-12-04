@@ -5,11 +5,16 @@ package com.mycompany.zerohungerapp;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
 public class Main {
 
     public static void main(String[] args) {
+        //Load saved data for DonationManager.donations
+        //this reads donations.txt (if there is anythink already saved)
+        DonationManager.loadFromFile();
+
         // Launch HomeScreen when the app starts
         HomeScreen homeScreen = new HomeScreen();
         homeScreen.setVisible(true);

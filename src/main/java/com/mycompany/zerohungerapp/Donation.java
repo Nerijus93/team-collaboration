@@ -6,13 +6,16 @@ package com.mycompany.zerohungerapp;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
+
+//It will represent single donation records such as: (donor, date, type, quantity, and donationId)
 public class Donation {
     
     //Variables
     private static int nextId = 1;   // Auto increment counter by 1
-    private int donationId;          // Each donation gets its own ID
+    private int donationId;          // Unique donation Id
     private Donor donor;
     private String date;
     private String typeOfFood;
@@ -27,6 +30,24 @@ public class Donation {
         this.donationId = nextId++;
     }
     
+    //Overload constructor will be used when restoring donation from a file with explicit id
+    public Donation(Donor donor, String date, String typeOfFood, int quantity, int donationId) {
+        this.donor = donor;
+        this.date = date;
+        this.typeOfFood = typeOfFood;
+        this.quantity = quantity;
+        this.donationId = donationId;
+        if (donationId >= nextId) {
+            nextId = donationId + 1;
+        }
+    }
+    
+    //Setter
+    //This will allow user to set nextId manually if needed
+    public static void setNextId(int nextId) {
+        Donation.nextId = nextId;
+    }
+
     // Getters
     public Donor getDonor() {
         return donor;
@@ -50,10 +71,27 @@ public class Donation {
 
     @Override
     public String toString() {
-        return "=== Donation #" + donationId + " ===\n"
+        return "Donation #" + donationId + "\n"
                 + donor.toString() + "\n"
                 + "Food: " + typeOfFood + "\n"
                 + "Quantity: " + quantity + "\n"
                 + "Date: " + date + "\n";
+    }
+    
+    //It will convert donation into a single line for saving
+    public String toFileString() {
+        String path = donor.getImagePath();
+        if (path == null) path = "";
+        return donationId + "," +
+                donor.getDonorId() + "," +
+                donor.getName() + "," +
+                donor.getLastName() + "," +
+                donor.getEmail() + "," +
+                donor.getPhone() + "," +
+                donor.getImagePath() + "," +
+                path + "," +
+                date + "," +
+                typeOfFood + "," +
+                quantity;
     }
 }

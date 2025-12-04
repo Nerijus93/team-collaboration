@@ -6,15 +6,17 @@ package com.mycompany.zerohungerapp;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
-public abstract class Person {
 
+public abstract class Person {
     protected String name;
     protected String email;
     protected String phone;
     protected String lastName;
 
+    //Constructor to store personal information
     public Person(String name, String lastName, String email, String phone) {
         this.name = name;
         this.lastName = lastName;
@@ -39,6 +41,7 @@ public abstract class Person {
         return phone;
     }
 
+    //Subclasses to give role specific information
     public abstract String getRoleInfo();
 
     @Override

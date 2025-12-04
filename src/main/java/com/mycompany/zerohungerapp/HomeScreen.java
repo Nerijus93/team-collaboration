@@ -10,8 +10,11 @@ import javax.swing.*;
 /**
  *
  *
- * @author ITwork
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
+
+//HomeScreen UI louncher that opens all existing sections of this project
 public class HomeScreen extends JFrame {
 
     public HomeScreen() {
@@ -37,12 +40,14 @@ public class HomeScreen extends JFrame {
             this.setVisible(false);
         });
 
+        //OPEN RestaurantScreen and show it
         restaurantButton.addActionListener(e -> {
             RestaurantScreen rs = new RestaurantScreen();
             rs.setVisible(true);
             this.setVisible(false);
         });
 
+        //OPEN BecomeMemberSection and show it
         memberButton.addActionListener(e -> {
             BecomeMemberSection bms = new BecomeMemberSection();
             bms.setVisible(true);

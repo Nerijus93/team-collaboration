@@ -10,25 +10,37 @@ import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author ITwork
+ * @author Nerijus Kmitas Student ID x24170232
  */
+//This is main GUI for managing donations
+//Contains input for donor details, donation details, profile picture
+//and buttons to save, search, print, and delete records
+
 public class DonationScreen extends javax.swing.JFrame {
 
     private HomeScreen parent;
 
+    //It is holding the path to profile picture selected by current donor
+    private String currentImagePath = "";
+
+    // Logger for any potential errors
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DonationScreen.class.getName());
+
+    private List<Donation> donations;
+
+    //Constructors
     public DonationScreen(HomeScreen inParent) {
         initComponents();
         parent = inParent;
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        //When the window closes show the parent (home) page again
         addWindowListener(new java.awt.event.WindowAdapter() {
 
             @Override
@@ -38,29 +50,14 @@ public class DonationScreen extends javax.swing.JFrame {
 
             }
         });
+        //Initialize donations reference from managerr
+        donations = DonationManager.getDonations();
     }
 
-    // Logger for any potential errors
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DonationScreen.class.getName());
-
-    private DonationManager donationManager = new DonationManager();
-    // List to hold donations
-    private List<Donation> donations;
-
-    /**
-     * Creates new form DonationScreen
-     */
-    public DonationScreen(JButton goBack1Button) {
-        this.goBackButton = goBack1Button;
-
-    }
-
+    //Constructor
     public DonationScreen() {
-        // Initialize the donation list
-        donations = new ArrayList<>();
-
-        // Initialize components
         initComponents();
+        donations = DonationManager.getDonations();
     }
 
     /**
@@ -318,28 +315,31 @@ public class DonationScreen extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
-        // PERSON FIELDS
+        //Personal fields
         String name = nameText.getText().trim();
         String lastName = lastNameText.getText().trim();
         String email = emailText.getText().trim();
         String phone = phoneText.getText().trim();
 
-        // DONATION FIELDS
+        // Donation fields
         String date = dateText.getText().trim();
         String foodType = typeOfFoodText.getText().trim();
         String quantityStr = quantityText.getText().trim();
 
-        // ---------- VALIDATION ----------
+        //Validation of every input
+        //Name section can't be left empty
         if (name.isEmpty() || lastName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Name and Last Name cannot be empty.");
             return;
         }
 
+        //Email address has to contain '@' sign
         if (!email.contains("@")) {
             JOptionPane.showMessageDialog(this, "Email is not valid. It must contain '@'.");
             return;
         }
 
+        //Phone number has to contain integer numbers only
         if (phone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Phone number cannot be empty.");
             return;
@@ -351,20 +351,23 @@ public class DonationScreen extends javax.swing.JFrame {
             return;
         }
 
+        //Data format is restricted to this type: "dd/mm/yy"
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-        sdf.setLenient(false); // strict parsing
+        sdf.setLenient(false);       // strict parsing
         try {
-            sdf.parse(date); // throws ParseException if format is wrong
+            sdf.parse(date);         //throws ParseException if format is wrong
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Date must be in the format DD/MM/YY.");
             return;
         }
 
+        //Food type section can't be left empty
         if (foodType.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Food Type cannot be empty.");
             return;
         }
 
+        //Quantity has to be a integer number
         int quantity;
         try {
             quantity = Integer.parseInt(quantityStr);
@@ -377,13 +380,21 @@ public class DonationScreen extends javax.swing.JFrame {
             return;
         }
 
+        //Used to create donor and set the chosen image path
         Donor donor = new Donor(name, lastName, email, phone);
+        //currentImagePath will be set by profilePictureButton
+        donor.setImagePath(currentImagePath);
+
+        //Create a donation
         Donation donation = new Donation(donor, date, foodType, quantity);
 
+        //Add the donation to list in memory and save it to the file
         DonationManager.addDonation(donation);
+        DonationManager.saveToFile();
 
         JOptionPane.showMessageDialog(this, "Donation saved successfully!");
 
+        //It will clear UI inputs
         nameText.setText("");
         lastNameText.setText("");
         emailText.setText("");
@@ -391,6 +402,9 @@ public class DonationScreen extends javax.swing.JFrame {
         dateText.setText("");
         typeOfFoodText.setText("");
         quantityText.setText("");
+        currentImagePath = "";
+        imageIconLabel.setIcon(null);
+        imageIconLabel.setText("Image Icon");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
@@ -400,8 +414,8 @@ public class DonationScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_goBackButtonActionPerformed
 
     private void printTheListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printTheListButtonActionPerformed
-        // TODO add your handling code here:
-        listOfDonationsTextArea.setText(""); // clear previous text
+        //After pressing the button will print all the list to the textArea
+        listOfDonationsTextArea.setText("");
 
         if (DonationManager.getDonations().isEmpty()) {
             listOfDonationsTextArea.setText("No donations recorded yet!");
@@ -423,7 +437,7 @@ public class DonationScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_printTheListButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        //After pressing button donation will be deleted by user ID
         String idStr = JOptionPane.showInputDialog(this, "Enter Donation ID to delete:");
         if (idStr != null && !idStr.trim().isEmpty()) {
             try {
@@ -442,23 +456,47 @@ public class DonationScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
+        //Search by donor name and display results including the profile picture that was saved
         String name = JOptionPane.showInputDialog(this, "Enter Donor Name to search:");
         if (name != null && !name.trim().isEmpty()) {
             ArrayList<Donation> results = DonationManager.searchDonationsByDonorName(name.trim());
             if (results.isEmpty()) {
                 listOfDonationsTextArea.setText("No donations found for donor: " + name);
+                imageIconLabel.setIcon(null);
+                imageIconLabel.setText("Image Icon");
             } else {
                 listOfDonationsTextArea.setText("");
                 for (Donation d : results) {
-                    listOfDonationsTextArea.append(d.toString() + "\n----------------------\n");
+                    listOfDonationsTextArea.append(d.toString() + "\n-----\n");
+
+                    //Restore the profile picture for the donor if it is available
+                    //After pressing search button it will restore saved profile picture of the Donor
+                    String path = d.getDonor().getImagePath();
+                    if (path != null && !path.isEmpty()) {
+                        File f = new File(path);
+                        if (f.exists()) {
+                            ImageIcon icon = new ImageIcon(path);
+                            Image img = icon.getImage().getScaledInstance(92, 83, Image.SCALE_SMOOTH);
+                            imageIconLabel.setIcon(new ImageIcon(img));
+                            imageIconLabel.setText("");
+                        } else {
+                            //File is not found
+                            imageIconLabel.setIcon(null);
+                            imageIconLabel.setText("Image not found!");
+                        }
+                    } else {
+                        imageIconLabel.setIcon(null);
+                        imageIconLabel.setText("Image Icon");
+
+                    }
                 }
             }
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void profilePictureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePictureButtonActionPerformed
-        // TODO add your handling code here:
+        //Profile picture selection dialog. It will store chosen patch to currentImagePath
+        //and will show preview
 
         JFileChooser fileChooser = new JFileChooser();
 
@@ -472,20 +510,19 @@ public class DonationScreen extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
 
-            //Load the original size image
-            ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
+            //Store path so it can be later saved with Donor
+            currentImagePath = selectedFile.getAbsolutePath();
+
+            //Create icon and resize it to preview
+            ImageIcon imageIcon = new ImageIcon(currentImagePath);
             Image originalImage = imageIcon.getImage();
 
             //Resize it to match my window of (92 width by 83 height)
             Image resizedImage = originalImage.getScaledInstance(
-                    92, 83, Image.SCALE_SMOOTH
-            );
-
-            //Create image icon from resized image
-            ImageIcon resizedIcon = new ImageIcon(resizedImage);
-
-            //Set resized image to ImageIconLabel
-            imageIconLabel.setIcon(resizedIcon);
+                    92, 83, Image.SCALE_SMOOTH);
+            
+            //Show image preview in the label
+            imageIconLabel.setIcon(new ImageIcon(resizedImage));
         }
     }//GEN-LAST:event_profilePictureButtonActionPerformed
 
