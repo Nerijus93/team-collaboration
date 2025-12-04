@@ -6,8 +6,10 @@ package com.mycompany.zerohungerapp;
 
 /**
  *
- * @author Nerijus Kmitas Student ID x24170232
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
+
 //Donor extends Person and adds a (donorId) and (imagePath) for profile picture
 public class Donor extends Person {
 

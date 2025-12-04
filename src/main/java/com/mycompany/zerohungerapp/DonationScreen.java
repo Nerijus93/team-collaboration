@@ -15,8 +15,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author Nerijus Kmitas Student ID x24170232
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
+
 //This is main GUI for managing donations
 //Contains input for donor details, donation details, profile picture
 //and buttons to save, search, print, and delete records

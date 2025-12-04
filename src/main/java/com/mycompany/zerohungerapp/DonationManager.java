@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Nerijus Kmitas Student ID x24170232
+ * @author Nerijus Kmitas
+ * Student ID x24170232
  */
 
 //DonationManager will keep the list of Donation objects and will handle operations
